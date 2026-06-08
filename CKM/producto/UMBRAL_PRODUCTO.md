@@ -1,7 +1,7 @@
 # UMBRAL — Qué es este producto
 
 > Documento de bases. Sienta el "qué" y el "para qué" de la plataforma UMBRAL (app del inversor + backoffice) antes de arrancar el diseño mobile-first.
-> Fuente de verdad de marca: `MARCA_UMBRAL.md`. Si algo de acá choca con la marca, gana la marca.
+> Fuente de verdad de marca: `../marca/MARCA_UMBRAL.md`. Si algo de acá choca con la marca, gana la marca.
 > Última actualización: junio 2026.
 
 ---
