@@ -1,0 +1,958 @@
+<!--
+  CKM · meta
+  title: "Propuesta de desarrollo — MVP UMBRAL Collection"
+  area: negocio
+  tipo: propuesta-comercial
+  audiencia: cliente
+  sensibilidad: interno
+  owner: "@santiromero1"
+  fecha: "2026-06-09"
+  estado: vigente (reemplaza la propuesta anterior de USD 6.000)
+  precio: "USD 4.000 — 3 hitos (50/25/25)"
+  plazo: "8–12 semanas"
+  relacionado:
+    - ../legal/UMBRAL_contrato_desarrollo_MVP_2026-06-09.md
+    - ../producto/MVP.md
+    - ../SPECS/mvp-v1/PRD-Spec.md
+    - ../SPECS/mvp-v1/Design-Spec.md
+
+  Este HTML es la FUENTE EDITABLE (source of truth). El PDF que se entrega al
+  cliente se regenera de forma determinística con:
+
+    "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" \
+      --headless --disable-gpu --no-pdf-header-footer \
+      --print-to-pdf="UMBRAL_propuesta_desarrollo_MVP_2026-06-09.pdf" \
+      --virtual-time-budget=10000 \
+      "file://$(pwd)/UMBRAL_propuesta_desarrollo_MVP_2026-06-09.html"
+
+  Nota: las tipografías cargan desde Google Fonts (CDN), por eso se versiona
+  también el PDF como snapshot fiel de lo presentado.
+-->
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<title>UMBRAL Collection · Propuesta de Desarrollo MVP</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Be+Vietnam+Pro:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --umbral-green: #395714;
+    --umbral-green-700: #2D4710;
+    --umbral-green-100: rgba(57, 87, 20, 0.10);
+    --umbral-green-50:  rgba(57, 87, 20, 0.05);
+    --cream:        #F5F1EA;
+    --cream-2:      #EDE7DC;
+    --paper:        #FFFFFF;
+    --paper-alt:    #FAF7F1;
+    --ink:          #1A1A1A;
+    --ink-2:        #2E2E2C;
+    --muted:        #7A766E;
+    --hairline:     rgba(26, 26, 26, 0.12);
+    --hairline-2:   rgba(26, 26, 26, 0.06);
+    --font-serif: "DM Serif Display", "Cormorant Garamond", Georgia, serif;
+    --font-sans:  "Be Vietnam Pro", "Inter", -apple-system, system-ui, sans-serif;
+    --font-mono:  "JetBrains Mono", ui-monospace, monospace;
+  }
+
+  @page { size: A4; margin: 0; }
+
+  * {
+    box-sizing: border-box;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    color-adjust: exact !important;
+  }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: var(--font-sans);
+    color: var(--ink);
+    background: #DAD3C4;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  .doc {
+    max-width: none;
+    padding: 24px 0 60px;
+    display: flex; flex-direction: column;
+    align-items: center;
+    gap: 24px;
+  }
+
+  .page {
+    width: 210mm;
+    min-height: 297mm;
+    background: var(--paper);
+    color: var(--ink);
+    padding: 16mm 18mm 16mm;
+    position: relative;
+    page-break-after: always;
+    box-shadow: 0 18px 40px rgba(0,0,0,0.12);
+    overflow: hidden;
+    font-size: 10.5pt;
+    line-height: 1.5;
+  }
+  .page:last-child { page-break-after: avoid; }
+
+  @media print {
+    body { background: var(--paper); }
+    .doc { padding: 0; gap: 0; }
+    .page {
+      box-shadow: none; margin: 0;
+      width: 210mm; height: 297mm;
+      min-height: 297mm; max-height: 297mm;
+      overflow: hidden;
+    }
+    .no-print { display: none !important; }
+  }
+
+  .serif { font-family: var(--font-serif); font-weight: 400; letter-spacing: -0.005em; }
+  .mono  { font-family: var(--font-mono); }
+  h1, h2, h3 { font-family: var(--font-serif); font-weight: 400; margin: 0; letter-spacing: -0.005em; color: var(--ink); }
+  p { margin: 0 0 10pt; text-wrap: pretty; }
+  strong { font-weight: 600; color: var(--ink); }
+  ul, ol { margin: 0 0 8pt; padding-left: 18pt; }
+  ul li, ol li { margin-bottom: 3pt; }
+  ul { list-style: none; padding-left: 0; }
+  ul li { position: relative; padding-left: 16pt; }
+  ul li::before {
+    content: ""; position: absolute; left: 0; top: 0.55em;
+    width: 5pt; height: 1px; background: var(--umbral-green);
+  }
+
+  .eyebrow {
+    font-family: var(--font-sans);
+    font-size: 8.5pt; letter-spacing: 0.22em;
+    text-transform: uppercase; color: var(--muted); font-weight: 500;
+  }
+
+  /* Cover */
+  .cover {
+    background:
+      radial-gradient(circle at 90% 10%, rgba(255,255,255,0.06), transparent 50%),
+      var(--umbral-green);
+    color: #fff;
+    padding: 30mm 24mm;
+    display: flex; flex-direction: column;
+    position: relative; overflow: hidden;
+  }
+  .cover .brand {
+    display: flex; align-items: center; gap: 12pt;
+    border-bottom: 1px solid rgba(255,255,255,0.18);
+    padding-bottom: 18pt;
+  }
+  .cover .brand .mark {
+    width: 34pt; height: 34pt; background: #fff; border-radius: 3pt;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .cover .brand .word { line-height: 1; }
+  .cover .brand .word .name { font-family: var(--font-serif); font-size: 18pt; }
+  .cover .brand .word .sub { font-size: 8pt; letter-spacing: 0.22em; color: rgba(255,255,255,0.7); margin-top: 4pt; }
+
+  .cover h1 {
+    color: #fff; font-size: 58pt; line-height: 0.98;
+    margin: auto 0 18pt; max-width: 15ch; text-wrap: balance;
+  }
+  .cover .sub {
+    font-size: 13.5pt; color: rgba(255,255,255,0.85);
+    max-width: 58ch; line-height: 1.45; margin-bottom: 32pt;
+  }
+  .cover .meta {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 18pt; padding-top: 18pt;
+    border-top: 1px solid rgba(255,255,255,0.18);
+  }
+  .cover .meta .item .lbl { font-size: 8pt; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.55); margin-bottom: 6pt; }
+  .cover .meta .item .val { font-family: var(--font-serif); font-size: 15pt; }
+
+  .cover-deco {
+    position: absolute; right: -40pt; bottom: -120pt;
+    font-family: var(--font-serif); font-size: 600pt;
+    color: rgba(255,255,255,0.08); line-height: 1; pointer-events: none;
+  }
+  .cover-dots { position: absolute; top: 32mm; right: 24mm; display: flex; gap: 7pt; }
+  .cover-dots span { width: 8pt; height: 8pt; background: #fff; border-radius: 50%; }
+
+  /* Running head / foot */
+  .runhead {
+    position: absolute; top: 8mm; left: 18mm; right: 18mm;
+    display: flex; align-items: center; justify-content: space-between;
+    font-size: 8pt; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--muted); padding-bottom: 5pt;
+    border-bottom: 1px solid var(--hairline-2);
+  }
+  .runhead .l { display: flex; align-items: center; gap: 8pt; }
+  .runhead .l .mark-sm { width: 12pt; height: 12pt; background: var(--umbral-green); border-radius: 2pt; display: inline-block; }
+  .runfoot {
+    position: absolute; bottom: 8mm; left: 18mm; right: 18mm;
+    display: flex; align-items: center; justify-content: space-between;
+    font-size: 8pt; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--muted); padding-top: 5pt;
+    border-top: 1px solid var(--hairline-2);
+  }
+  .runfoot .page-no { font-family: var(--font-serif); font-size: 13pt; letter-spacing: 0; color: var(--ink); text-transform: none; }
+  .runfoot .page-no small { font-family: var(--font-mono); font-size: 8pt; color: var(--muted); margin-left: 6pt; letter-spacing: 0.1em; }
+
+  /* Section heads */
+  .section-head {
+    display: grid; grid-template-columns: 52pt 1fr; gap: 14pt;
+    align-items: baseline; padding-bottom: 12pt;
+    border-bottom: 1px solid var(--hairline); margin-bottom: 14pt;
+  }
+  .section-head .num { font-family: var(--font-serif); font-size: 44pt; line-height: 0.95; color: var(--umbral-green); }
+  .section-head h2 { font-size: 22pt; line-height: 1.05; }
+  .section-head .lead { color: var(--muted); margin-top: 4pt; max-width: 64ch; font-size: 10.5pt; }
+
+  h3.minor { font-size: 13pt; margin: 12pt 0 4pt; color: var(--ink); }
+  h3.minor::before {
+    content: ""; display: inline-block; width: 12pt; height: 1px;
+    background: var(--umbral-green); vertical-align: 4pt; margin-right: 10pt;
+  }
+
+  .pill {
+    display: inline-flex; align-items: center; gap: 6pt;
+    font-size: 8.5pt; letter-spacing: 0.04em; font-weight: 500;
+    padding: 3pt 9pt; border-radius: 999px;
+    background: var(--umbral-green-100); color: var(--umbral-green);
+  }
+  .pill .dot { width: 5pt; height: 5pt; border-radius: 50%; background: currentColor; }
+
+  .callout {
+    background: var(--paper-alt); border: 1px solid var(--hairline-2);
+    padding: 10pt 14pt; border-radius: 3pt; margin: 10pt 0;
+    border-left: 3pt solid var(--umbral-green);
+  }
+  .callout .eyebrow { margin-bottom: 6pt; }
+  .callout p:last-child { margin-bottom: 0; }
+
+  .quote {
+    font-family: var(--font-serif); font-size: 19pt; line-height: 1.25;
+    color: var(--ink); margin: 12pt 0 18pt; padding-left: 18pt;
+    border-left: 2px solid var(--umbral-green); text-wrap: balance;
+  }
+
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12pt; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10pt; }
+
+  .card { background: var(--paper-alt); border: 1px solid var(--hairline-2); padding: 10pt 12pt; border-radius: 3pt; }
+  .card .eyebrow { margin-bottom: 4pt; }
+  .card h4 { font-family: var(--font-serif); font-size: 13pt; margin: 0 0 3pt; }
+  .card p { margin: 0; font-size: 10pt; color: var(--ink-2); }
+
+  .roles { display: grid; grid-template-columns: 1fr 1fr; gap: 14pt; }
+  .role {
+    background: var(--paper-alt); padding: 16pt 18pt; border-radius: 3pt;
+    border-top: 3pt solid var(--umbral-green);
+  }
+  .role h4 { font-family: var(--font-serif); font-size: 17pt; margin: 6pt 0 10pt; }
+  .role .who { font-size: 9pt; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); }
+  .role ul { font-size: 10pt; margin: 0; }
+  .role ul li { padding-left: 14pt; margin-bottom: 3pt; }
+  .role ul li::before { width: 4pt; }
+
+  .flow { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6pt; margin: 10pt 0; }
+  .flow .step { background: var(--paper-alt); border: 1px solid var(--hairline-2); padding: 10pt; border-radius: 3pt; position: relative; }
+  .flow .step .n { font-family: var(--font-serif); font-size: 18pt; color: var(--umbral-green); line-height: 1; }
+  .flow .step .t { font-size: 9pt; color: var(--ink-2); margin-top: 6pt; line-height: 1.35; }
+
+  table.umbral { width: 100%; border-collapse: collapse; margin: 6pt 0 12pt; font-size: 9.5pt; }
+  table.umbral th, table.umbral td {
+    text-align: left; padding: 7pt 9pt;
+    border-bottom: 1px solid var(--hairline-2); vertical-align: top;
+  }
+  table.umbral thead th {
+    font-size: 8.5pt; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--muted); font-weight: 500;
+    border-bottom: 1px solid var(--hairline); background: var(--paper-alt);
+  }
+  table.umbral td.amount { font-family: var(--font-serif); font-size: 13pt; color: var(--umbral-green); }
+
+  .price-box {
+    background: var(--umbral-green); color: #fff; padding: 18pt 22pt;
+    border-radius: 4pt; display: grid; grid-template-columns: 1fr auto;
+    align-items: center; gap: 14pt; margin: 10pt 0 14pt;
+    position: relative; overflow: hidden;
+  }
+  .price-box .lbl { font-size: 9pt; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.7); }
+  .price-box .amt { font-family: var(--font-serif); font-size: 44pt; line-height: 1; margin: 6pt 0 3pt; }
+  .price-box .note { font-size: 9.5pt; color: rgba(255,255,255,0.78); max-width: 40ch; }
+  .price-box::after {
+    content: "U"; position: absolute; right: -30pt; bottom: -110pt;
+    font-family: var(--font-serif); font-size: 360pt; line-height: 1; color: rgba(255,255,255,0.06);
+  }
+
+  .ops-box {
+    border: 1px solid var(--hairline); background: var(--paper);
+    padding: 14pt 16pt; border-radius: 3pt; display: grid;
+    grid-template-columns: 1fr auto; align-items: center; gap: 14pt;
+  }
+  .ops-box .amt { font-family: var(--font-serif); font-size: 26pt; color: var(--ink); line-height: 1; }
+  .ops-box .lbl { font-size: 9pt; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); }
+  .ops-box .note { font-size: 10pt; color: var(--muted); }
+
+  .toc { margin-top: 18pt; }
+  .toc-row {
+    display: flex; align-items: baseline; gap: 8pt; padding: 5.5pt 0;
+    border-bottom: 1px solid var(--hairline-2); font-size: 10.5pt;
+  }
+  .toc-row .n { font-family: var(--font-mono); font-size: 9pt; color: var(--muted); width: 28pt; }
+  .toc-row .t { font-family: var(--font-serif); font-size: 12.5pt; flex: 1; }
+  .toc-row .p { font-family: var(--font-mono); font-size: 9.5pt; color: var(--muted); }
+
+  .inout { display: grid; grid-template-columns: 1fr 1fr; gap: 14pt; margin: 12pt 0; }
+  .inout > div { padding: 14pt 16pt; border-radius: 3pt; background: var(--paper-alt); border: 1px solid var(--hairline-2); }
+  .inout > div .eyebrow { margin-bottom: 8pt; }
+  .inout .in { border-left: 3pt solid var(--umbral-green); }
+  .inout .out { border-left: 3pt solid #8A2828; }
+  .inout .out .eyebrow { color: #8A2828; }
+  .inout ul li { font-size: 10pt; margin-bottom: 4pt; padding-left: 14pt; }
+
+  .closing { padding: 30mm 24mm; background: var(--umbral-green); color: #fff; position: relative; overflow: hidden; display: flex; flex-direction: column; }
+  .closing .quote { color: #fff; border-color: rgba(255,255,255,0.5); font-size: 30pt; line-height: 1.2; max-width: 19ch; }
+  .closing-deco { position: absolute; left: -40pt; bottom: -140pt; font-family: var(--font-serif); font-size: 600pt; color: rgba(255,255,255,0.05); line-height: 1; }
+  .closing .sign {
+    margin-top: auto; padding-top: 32pt;
+    border-top: 1px solid rgba(255,255,255,0.18);
+    display: grid; grid-template-columns: 1fr 1fr; gap: 18pt;
+    font-size: 10pt; color: rgba(255,255,255,0.75);
+  }
+  .closing .sign .lbl { font-size: 8pt; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.5); margin-bottom: 6pt; }
+  .closing .sign .val { font-family: var(--font-serif); font-size: 15pt; color: #fff; }
+
+  svg.u-mark .dot { fill: var(--umbral-green); }
+  svg.u-mark .letter { fill: var(--umbral-green); }
+  svg.u-mark.inv .dot, svg.u-mark.inv .letter { fill: #fff; }
+
+  .scope-grid { display: grid; grid-template-columns: 1fr; gap: 0; }
+  .scope-row { display: grid; grid-template-columns: 120pt 1fr; gap: 18pt; padding: 11pt 0; border-bottom: 1px solid var(--hairline-2); }
+  .scope-row:last-child { border-bottom: none; }
+  .scope-row .who { font-family: var(--font-serif); font-size: 14pt; color: var(--umbral-green); }
+  .scope-row ul { margin: 0; }
+  .scope-row ul li { font-size: 10pt; margin-bottom: 3pt; }
+
+  .pay-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12pt; margin: 12pt 0; }
+  .pay { background: var(--paper-alt); border: 1px solid var(--hairline-2); border-top: 3pt solid var(--umbral-green); border-radius: 3pt; padding: 14pt 16pt; }
+  .pay .step-lbl { font-size: 8.5pt; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); }
+  .pay .pct { font-family: var(--font-serif); font-size: 30pt; color: var(--umbral-green); line-height: 1; margin: 6pt 0 2pt; }
+  .pay .money { font-family: var(--font-serif); font-size: 16pt; color: var(--ink); }
+  .pay .when { font-size: 9pt; color: var(--ink-2); margin-top: 8pt; line-height: 1.35; }
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="u-mark" viewBox="0 0 100 80">
+      <circle class="dot" cx="8"  cy="55" r="5"/>
+      <circle class="dot" cx="24" cy="55" r="5"/>
+      <circle class="dot" cx="40" cy="55" r="5"/>
+      <path class="letter" d="M52 12 L52 14 C56 14 58 17 58 22 L58 50 C58 65 68 72 78 72 C88 72 96 65 96 50 L96 22 C96 17 98 14 100 14 L100 12 L88 12 L88 14 C90 14 92 17 92 22 L92 50 C92 62 86 68 78 68 C70 68 64 62 64 50 L64 22 C64 17 66 14 68 14 L68 12 Z"/>
+    </symbol>
+  </defs>
+</svg>
+
+<div class="doc">
+
+<!-- ============== COVER ============== -->
+<section class="page cover">
+  <div class="brand">
+    <div class="mark"><svg class="u-mark" width="24" height="20"><use href="#u-mark"/></svg></div>
+    <div class="word">
+      <div class="name">UMBRAL</div>
+      <div class="sub">COLLECTION</div>
+    </div>
+  </div>
+
+  <div class="cover-dots"><span></span><span></span><span></span></div>
+
+  <div style="flex:1; display:flex; flex-direction:column; justify-content:flex-end;">
+    <div class="eyebrow" style="color:rgba(255,255,255,0.65); margin-bottom: 18pt;">Propuesta de desarrollo · Junio 2026</div>
+    <h1>Propuesta de desarrollo del MVP</h1>
+    <p class="sub">La primera versión funcional de UMBRAL: una app mobile donde el inversor ve lo suyo —la valorización de sus m², el avance de su obra y el estado de sus cuotas— y un backoffice donde el equipo de UMBRAL da de alta desarrollos e inversores, carga contenido, administra pagos y acompaña.</p>
+
+    <div class="meta">
+      <div class="item"><div class="lbl">Documento</div><div class="val">Propuesta MVP v1</div></div>
+      <div class="item"><div class="lbl">Alcance</div><div class="val">App + Backoffice</div></div>
+      <div class="item"><div class="lbl">Plazo</div><div class="val">8 – 12 semanas</div></div>
+      <div class="item"><div class="lbl">Inversión</div><div class="val">USD 4.000</div></div>
+    </div>
+  </div>
+
+  <div class="cover-deco">U</div>
+</section>
+
+<!-- ============== Índice ============== -->
+<section class="page">
+  <div class="runhead">
+    <div class="l"><span class="mark-sm"></span><span>UMBRAL · Propuesta MVP v1</span></div>
+    <div>Junio 2026</div>
+  </div>
+
+  <div class="eyebrow" style="margin-top: 10pt;">Apertura</div>
+  <h1 style="font-size: 32pt; line-height: 1; margin: 4pt 0 10pt; max-width: 18ch;">Índice</h1>
+  <p style="max-width: 64ch; font-size: 11pt; color: var(--ink-2);">
+    Esta propuesta describe el alcance, las funcionalidades, las pantallas, la implementación
+    y la inversión para construir la primera versión funcional de UMBRAL. Reemplaza cualquier
+    propuesta anterior sobre este MVP.
+  </p>
+
+  <p class="quote" style="font-size: 16pt;">
+    El inversor ve lo suyo. UMBRAL da de alta, carga, acompaña y administra. Dos productos sobre un mismo backend.
+  </p>
+
+  <div style="margin-top: 12pt;">
+    <div class="eyebrow" style="margin-bottom: 10pt;">Contenidos</div>
+    <div class="toc">
+      <div class="toc-row"><span class="n">01</span><span class="t">Objetivo del MVP</span><span class="p">p. 3</span></div>
+      <div class="toc-row"><span class="n">02</span><span class="t">Alcance y roles</span><span class="p">p. 4</span></div>
+      <div class="toc-row"><span class="n">03</span><span class="t">Funcionalidades por superficie</span><span class="p">p. 5</span></div>
+      <div class="toc-row"><span class="n">04</span><span class="t">Pantallas del MVP</span><span class="p">p. 6</span></div>
+      <div class="toc-row"><span class="n">05</span><span class="t">Implementación técnica</span><span class="p">p. 7</span></div>
+      <div class="toc-row"><span class="n">06</span><span class="t">Cronograma y comunicación</span><span class="p">p. 8</span></div>
+      <div class="toc-row"><span class="n">07</span><span class="t">Inversión y forma de pago</span><span class="p">p. 9</span></div>
+      <div class="toc-row"><span class="n">08</span><span class="t">Qué incluye y qué no</span><span class="p">p. 10</span></div>
+      <div class="toc-row"><span class="n">09</span><span class="t">Infraestructura, garantía y mantenimiento</span><span class="p">p. 11</span></div>
+      <div class="toc-row"><span class="n">10</span><span class="t">Próximos pasos y resumen</span><span class="p">p. 12</span></div>
+    </div>
+  </div>
+
+  <div class="runfoot"><div>UMBRAL Collection</div><div class="page-no">02<small>/ 13</small></div></div>
+</section>
+
+<!-- ============== §01 Objetivo ============== -->
+<section class="page">
+  <div class="runhead"><div class="l"><span class="mark-sm"></span><span>01 · Objetivo</span></div><div>UMBRAL · Propuesta MVP v1</div></div>
+
+  <div class="section-head">
+    <div class="num">01</div>
+    <div>
+      <h2>Objetivo del MVP</h2>
+      <p class="lead">Hacer existir el producto: lo mínimo para que UMBRAL exista, sea operable y se sienta UMBRAL.
+        Una base sólida sobre la que crecer.</p>
+    </div>
+  </div>
+
+  <p>UMBRAL acompaña al inversor durante el tramo más largo e incierto de su experiencia: <strong>entre la firma y la entrega</strong>.
+    Ese intervalo dura años, y es justo donde el desarrollador se queda en silencio y el inversor queda en el aire. Esta primera versión
+    construye el soporte operativo de ese acompañamiento.</p>
+
+  <h3 class="minor">El MVP, en una idea</h3>
+  <div class="flow" style="grid-template-columns: 1fr 1fr 1fr;">
+    <div class="step"><div class="n">01</div><div class="t"><strong>El inversor</strong> entra desde su celular y ve la valorización de sus m², el avance de su obra y el estado de sus cuotas.</div></div>
+    <div class="step"><div class="n">02</div><div class="t"><strong>El equipo de UMBRAL</strong> da de alta desarrollos e inversores, carga contenido y administra pagos desde el backoffice.</div></div>
+    <div class="step"><div class="n">03</div><div class="t"><strong>UMBRAL acompaña</strong>: manda avisos, recibe dudas e intenciones de venta, y sostiene la presencia durante la obra.</div></div>
+  </div>
+
+  <div class="callout">
+    <div class="eyebrow">Principio rector</div>
+    <p>La plataforma es el <strong>soporte</strong> de la propuesta de valor, no la propuesta en sí. El MVP prioriza lo esencial:
+      que el inversor acceda rápido a información clara sobre su inversión, con la sobriedad y el cuidado propios de UMBRAL Collection.</p>
+  </div>
+
+  <h3 class="minor">Cómo medimos que está listo</h3>
+  <p>Un operador no técnico deja un desarrollo operativo de punta a punta —alta del desarrollo, al menos un inversor con su código,
+    contenido base y curva de valorización— en una sola sesión y sin asistencia. Con cero fugas de aislamiento entre inversores.</p>
+
+  <div class="runfoot"><div>01 · Objetivo</div><div class="page-no">03<small>/ 13</small></div></div>
+</section>
+
+<!-- ============== §02 Alcance y roles ============== -->
+<section class="page">
+  <div class="runhead"><div class="l"><span class="mark-sm"></span><span>02 · Alcance y roles</span></div><div>UMBRAL · Propuesta MVP v1</div></div>
+
+  <div class="section-head">
+    <div class="num">02</div>
+    <div>
+      <h2>Alcance y roles</h2>
+      <p class="lead">El MVP contempla <strong>dos superficies sobre un mismo backend</strong>: una app web responsive
+        mobile-first para el inversor y un backoffice de escritorio operado únicamente por el equipo de UMBRAL.</p>
+    </div>
+  </div>
+
+  <div class="roles">
+    <div class="role">
+      <div class="who">Superficie 01 · mobile-first</div>
+      <h4>App del inversor</h4>
+      <ul>
+        <li>Onboarding con código de referencia + datos + m²</li>
+        <li>Login con Google o email / contraseña</li>
+        <li>Estado de la inversión: valorización por m², avance de obra y cuotas</li>
+        <li>Contenido del desarrollo: novedades, fotos y videos</li>
+        <li>Preguntas frecuentes (FAQ)</li>
+        <li>Abrir una nueva duda</li>
+        <li>Pedir vender su unidad</li>
+      </ul>
+    </div>
+    <div class="role">
+      <div class="who">Superficie 02 · escritorio</div>
+      <h4>Backoffice UMBRAL</h4>
+      <ul>
+        <li>Alta y configuración de desarrollos (datos, obra, plan de cuotas)</li>
+        <li>Alta de inversores y código de referencia único</li>
+        <li>Carga de contenido y curva de valorización por m²</li>
+        <li>Administración de pagos (marcar cuotas)</li>
+        <li>Envío de avisos por mail</li>
+        <li>Bandeja de solicitudes de venta</li>
+        <li>Trazabilidad básica del inversor (logins, último ingreso)</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3 class="minor">Roles del MVP</h3>
+  <table class="umbral">
+    <thead><tr><th style="width:26%;">Rol</th><th style="width:34%;">Quién es</th><th>Acceso</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Admin UMBRAL</strong></td><td>El equipo de UMBRAL</td><td>Backoffice. Ve y opera <strong>todos</strong> los desarrollos.</td></tr>
+      <tr><td><strong>Inversor</strong></td><td>El comprador que invirtió en un desarrollo</td><td>App mobile. Ve <strong>solo lo suyo</strong> (aislamiento por backend).</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout">
+    <div class="eyebrow">Decisión de alcance</div>
+    <p>En esta versión <strong>no existe un rol de desarrolladora con acceso a la plataforma</strong>. El contacto con la desarrolladora
+      —para conseguir inversores, contenido y plan de cuotas— se hace por fuera del sistema. El acceso de la desarrolladora al backoffice
+      queda como evolución futura.</p>
+  </div>
+
+  <div class="runfoot"><div>02 · Alcance y roles</div><div class="page-no">04<small>/ 13</small></div></div>
+</section>
+
+<!-- ============== §03 Funcionalidades por superficie ============== -->
+<section class="page">
+  <div class="runhead"><div class="l"><span class="mark-sm"></span><span>03 · Funcionalidades</span></div><div>UMBRAL · Propuesta MVP v1</div></div>
+
+  <div class="section-head">
+    <div class="num">03</div>
+    <div>
+      <h2>Funcionalidades por superficie</h2>
+      <p class="lead">El detalle de lo que cada rol puede hacer. Todo lo que se publica en la app del inversor sale del backoffice
+        operado por UMBRAL.</p>
+    </div>
+  </div>
+
+  <div class="scope-grid">
+    <div class="scope-row">
+      <div class="who">Inversor<br><span style="font-family:var(--font-sans); font-size:8.5pt; letter-spacing:.04em; color:var(--muted);">App mobile</span></div>
+      <ul>
+        <li><strong>Onboarding por única vez:</strong> ingresa el código de referencia que lo valida y lo asocia a su desarrollo, y declara sus m² de inversión.</li>
+        <li><strong>Login:</strong> con Google o email / contraseña. El reingreso no vuelve a pedir el código.</li>
+        <li><strong>Estado de la inversión:</strong> proyección de valor sobre sus m² (la joya visual), avance de obra y estado de cuotas (pagadas / pendientes).</li>
+        <li><strong>Contenido del desarrollo:</strong> novedades de obra, galería de fotos y videos (links / YouTube).</li>
+        <li><strong>FAQ</strong> del desarrollo, accesible inline.</li>
+        <li><strong>Abrir una nueva duda</strong> mediante un formulario que avisa al equipo.</li>
+        <li><strong>Pedir vender la unidad:</strong> un cuestionario breve de confirmación que dispara un aviso al equipo de UMBRAL.</li>
+      </ul>
+    </div>
+    <div class="scope-row">
+      <div class="who">Admin UMBRAL<br><span style="font-family:var(--font-sans); font-size:8.5pt; letter-spacing:.04em; color:var(--muted);">Backoffice</span></div>
+      <ul>
+        <li><strong>Desarrollos:</strong> alta y edición con datos base, estado de obra y plan de cuotas a nivel desarrollo.</li>
+        <li><strong>Inversores:</strong> alta dentro de un desarrollo, generación de un <strong>código de referencia único por inversor</strong> y asociación inversor ↔ desarrollo ↔ m² (con confirmación de m²).</li>
+        <li><strong>Contenido:</strong> carga de imágenes, videos, novedades, FAQ y la curva de valorización por m².</li>
+        <li><strong>Pagos:</strong> marcar a mano cada cuota como pagada o pendiente (sin integración con cobranza).</li>
+        <li><strong>Avisos por mail:</strong> nuevas novedades de obra y recordatorios de cuota a los inversores de un desarrollo.</li>
+        <li><strong>Solicitudes de venta:</strong> bandeja con motivo y datos del inversor para que el equipo actúe.</li>
+        <li><strong>Trazabilidad:</strong> métricas históricas simples por inversor (cantidad de logins, último ingreso). Solo lectura.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="callout">
+    <div class="eyebrow">Seguridad y aislamiento</div>
+    <p>Cada inversor ve únicamente su(s) desarrollo(s). El aislamiento se enforcea en el <strong>backend</strong> a nivel de permisos
+      (por la membresía inversor × desarrollo), no en el front. Se aplican medidas razonables de seguridad.</p>
+  </div>
+
+  <div class="runfoot"><div>03 · Funcionalidades</div><div class="page-no">05<small>/ 13</small></div></div>
+</section>
+
+<!-- ============== §04 Pantallas ============== -->
+<section class="page">
+  <div class="runhead"><div class="l"><span class="mark-sm"></span><span>04 · Pantallas del MVP</span></div><div>UMBRAL · Propuesta MVP v1</div></div>
+
+  <div class="section-head">
+    <div class="num">04</div>
+    <div>
+      <h2>Pantallas del MVP</h2>
+      <p class="lead">Las pantallas y flujos principales que se construyen, derivados del diseño aprobado. La demo de pantallas
+        ajustará la presentación visual final, con hasta dos rondas de cambios incluidas.</p>
+    </div>
+  </div>
+
+  <h3 class="minor" style="margin-top: 4pt;">App del inversor</h3>
+  <div class="grid-3">
+    <div class="card"><div class="eyebrow">Acceso</div><h4 style="font-size:12pt;">Onboarding</h4><p>Código de referencia → datos + m² → bienvenida.</p></div>
+    <div class="card"><div class="eyebrow">Acceso</div><h4 style="font-size:12pt;">Login</h4><p>Google o email / contraseña + recuperación.</p></div>
+    <div class="card" style="background: var(--umbral-green-50); border-left: 3pt solid var(--umbral-green);"><div class="eyebrow" style="color:var(--umbral-green);">Estrella</div><h4 style="font-size:12pt;">Home del desarrollo</h4><p>Card del desarrollo + bloque de valorización + avance de obra + cuotas.</p></div>
+    <div class="card"><div class="eyebrow">Contenido</div><h4 style="font-size:12pt;">Novedades, fotos y videos</h4><p>Lista, galería y embeds del desarrollo.</p></div>
+    <div class="card"><div class="eyebrow">Ayuda</div><h4 style="font-size:12pt;">FAQ + nueva duda</h4><p>Preguntas frecuentes y formulario de consulta.</p></div>
+    <div class="card"><div class="eyebrow">Salida</div><h4 style="font-size:12pt;">Vender mi unidad</h4><p>Intro → cuestionario → confirmación.</p></div>
+  </div>
+
+  <h3 class="minor">Backoffice UMBRAL</h3>
+  <div class="grid-3">
+    <div class="card"><div class="eyebrow">Desarrollos</div><h4 style="font-size:12pt;">Listado + alta</h4><p>Datos, estado de obra y plan de cuotas.</p></div>
+    <div class="card"><div class="eyebrow">Inversores</div><h4 style="font-size:12pt;">Detalle + alta</h4><p>Alta con código de referencia y m².</p></div>
+    <div class="card"><div class="eyebrow">Contenido</div><h4 style="font-size:12pt;">Carga por desarrollo</h4><p>Imágenes, videos, novedades, FAQ y valorización.</p></div>
+    <div class="card"><div class="eyebrow">Pagos</div><h4 style="font-size:12pt;">Panel de cuotas</h4><p>Marcar pagada / pendiente.</p></div>
+    <div class="card"><div class="eyebrow">Avisos</div><h4 style="font-size:12pt;">Composición y envío</h4><p>Novedad de obra o recordatorio de cuota.</p></div>
+    <div class="card"><div class="eyebrow">Ventas · Métricas</div><h4 style="font-size:12pt;">Bandeja + trazabilidad</h4><p>Solicitudes de venta y métricas por inversor.</p></div>
+  </div>
+
+  <div class="callout">
+    <p>Se contemplan además los <strong>estados de carga, vacíos, error y de permiso</strong> necesarios para que cada pantalla se
+      sienta terminada (por ejemplo, "Tu desarrollo está tomando forma" cuando aún no hay contenido), sin mostrar nunca datos de otro inversor.</p>
+  </div>
+
+  <div class="runfoot"><div>04 · Pantallas del MVP</div><div class="page-no">06<small>/ 13</small></div></div>
+</section>
+
+<!-- ============== §05 Implementación técnica ============== -->
+<section class="page">
+  <div class="runhead"><div class="l"><span class="mark-sm"></span><span>05 · Implementación técnica</span></div><div>UMBRAL · Propuesta MVP v1</div></div>
+
+  <div class="section-head">
+    <div class="num">05</div>
+    <div>
+      <h2>Implementación técnica</h2>
+      <p class="lead">Una aplicación web moderna, separada de la landing pública actual, mobile-first del lado del inversor.
+        Proveedores cloud reconocidos para estabilidad, escalabilidad y bajo costo operativo.</p>
+    </div>
+  </div>
+
+  <table class="umbral">
+    <thead><tr><th style="width: 26%;">Componente</th><th style="width: 22%;">Proveedor</th><th>Para qué sirve</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Aplicación web</strong></td><td>Next.js</td><td>Misma base para la app del inversor y el backoffice, optimizando velocidad y mantenimiento.</td></tr>
+      <tr><td><strong>Hosting y publicación</strong></td><td>Vercel</td><td>Aloja la aplicación, gestiona despliegues y entornos de prueba.</td></tr>
+      <tr><td><strong>Base de datos y accesos</strong></td><td>Supabase</td><td>Guarda inversores, desarrollos, inversiones, pagos y solicitudes. Maneja autenticación y permisos por rol.</td></tr>
+      <tr><td><strong>Emails transaccionales</strong></td><td>Resend</td><td>Bienvenidas, recuperación de contraseña y avisos desde un dominio propio de UMBRAL.</td></tr>
+      <tr><td><strong>Almacenamiento</strong></td><td>Supabase Storage</td><td>Guarda fotos, videos y documentos por desarrollo, con accesos protegidos.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout">
+    <div class="eyebrow">Decisión clave</div>
+    <p>Se construye una <strong>aplicación web responsive</strong> en lugar de una app nativa. Esto permite validar el producto más rápido,
+      reducir costos operativos y dejar mejor preparado un eventual pasaje futuro a app nativa.</p>
+  </div>
+
+  <h3 class="minor">Identidad visual</h3>
+  <p>La interfaz sigue la marca UMBRAL: verde primario <span class="mono" style="font-size:9.5pt;">#395714</span>, tipografías
+    <strong>DM Serif Display</strong> (títulos y la valorización) y <strong>Be Vietnam Pro</strong> (UI y cuerpo), estética sobria de
+    cuaderno de obra y copy en voseo rioplatense. La identidad ya está definida y resuelta.</p>
+
+  <div class="callout">
+    <div class="eyebrow">Propiedad y entrega</div>
+    <p>Una vez abonado el total, UMBRAL recibe el <strong>código fuente</strong> del MVP y los derechos de explotación. Las cuentas de
+      dominio, hosting, base de datos, almacenamiento y emails quedan a nombre de UMBRAL, con los accesos transferidos.</p>
+  </div>
+
+  <div class="runfoot"><div>05 · Implementación técnica</div><div class="page-no">07<small>/ 13</small></div></div>
+</section>
+
+<!-- ============== §06 Cronograma ============== -->
+<section class="page">
+  <div class="runhead"><div class="l"><span class="mark-sm"></span><span>06 · Cronograma y comunicación</span></div><div>UMBRAL · Propuesta MVP v1</div></div>
+
+  <div class="section-head">
+    <div class="num">06</div>
+    <div>
+      <h2>Cronograma y comunicación</h2>
+      <p class="lead">Una ventana de ejecución de <strong>entre 8 y 12 semanas</strong>, que comienza con el pago inicial y la
+        disponibilidad de accesos e información mínima para trabajar.</p>
+    </div>
+  </div>
+
+  <div class="flow">
+    <div class="step"><div class="n">01</div><div class="t"><strong>Sem. 1</strong> · arranque y base del proyecto</div></div>
+    <div class="step"><div class="n">02</div><div class="t"><strong>Sem. 2–4</strong> · app del inversor</div></div>
+    <div class="step"><div class="n">03</div><div class="t"><strong>Sem. 4–8</strong> · backoffice UMBRAL</div></div>
+    <div class="step"><div class="n">04</div><div class="t"><strong>Sem. 8–10</strong> · integración, pagos, avisos y pruebas</div></div>
+    <div class="step"><div class="n">05</div><div class="t"><strong>Sem. 10–12</strong> · correcciones finales y publicación</div></div>
+  </div>
+
+  <div class="grid-2" style="margin-top: 10pt;">
+    <div class="callout" style="margin: 0;">
+      <div class="eyebrow">Reportes de avance</div>
+      <p style="margin: 0; font-size: 9.5pt;">Un reporte cada <strong>1 a 2 semanas</strong>, con un resumen escrito de lo entregado, lo pendiente y una demo del estado actual cuando aplique. Comunicación por email o WhatsApp desde los contactos habituales.</p>
+    </div>
+    <div class="callout" style="margin: 0;">
+      <div class="eyebrow">Demo de pantallas y cambios</div>
+      <p style="margin: 0; font-size: 9.5pt;">La demo de pantallas es la instancia principal para ajustar estructura, navegación y flujos, con <strong>hasta dos rondas de cambios</strong> incluidas. Una vez aprobada, los pedidos que agreguen funciones o cambien lo aprobado se cotizan aparte.</p>
+    </div>
+  </div>
+
+  <div class="callout">
+    <div class="eyebrow">Responsabilidades de UMBRAL para avanzar en tiempo</div>
+    <p style="margin:0;">Entregar a tiempo el contenido inicial (textos, fotos, videos, links), los datos de inversores y plan de cuotas,
+      los accesos a cuentas relacionadas y las aprobaciones. Un referente único para tomar decisiones, con validaciones dentro de
+      <strong>48 a 72 hs hábiles</strong>. Los plazos se pausan ante demoras en estos insumos.</p>
+  </div>
+
+  <div class="runfoot"><div>06 · Cronograma y comunicación</div><div class="page-no">08<small>/ 13</small></div></div>
+</section>
+
+<!-- ============== §07 Inversión y forma de pago ============== -->
+<section class="page">
+  <div class="runhead"><div class="l"><span class="mark-sm"></span><span>07 · Inversión y forma de pago</span></div><div>UMBRAL · Propuesta MVP v1</div></div>
+
+  <div class="section-head">
+    <div class="num">07</div>
+    <div>
+      <h2>Inversión y forma de pago</h2>
+      <p class="lead">El precio total del MVP y su modalidad de pago en tres hitos.</p>
+    </div>
+  </div>
+
+  <div class="price-box">
+    <div>
+      <div class="lbl">Precio total del MVP</div>
+      <div class="amt">USD 4.000</div>
+      <div class="note">Cubre diseño funcional, desarrollo, integración, pruebas, publicación inicial y 15 días de estabilización posterior.</div>
+    </div>
+    <div>
+      <span class="pill" style="background: rgba(255,255,255,0.15); color: #fff;"><span class="dot"></span>3 hitos</span>
+    </div>
+  </div>
+
+  <div class="pay-grid">
+    <div class="pay">
+      <div class="step-lbl">Hito 1 · Inicio</div>
+      <div class="pct">50%</div>
+      <div class="money">USD 2.000</div>
+      <div class="when">Al firmar el contrato y antes de comenzar el trabajo.</div>
+    </div>
+    <div class="pay">
+      <div class="step-lbl">Hito 2 · Entrega funcional</div>
+      <div class="pct">25%</div>
+      <div class="money">USD 1.000</div>
+      <div class="when">Al entregar la versión funcional completa para la revisión y las correcciones finales.</div>
+    </div>
+    <div class="pay">
+      <div class="step-lbl">Hito 3 · Cierre</div>
+      <div class="pct">25%</div>
+      <div class="money">USD 1.000</div>
+      <div class="when">Al cerrar las correcciones y dejar el MVP técnicamente listo para producción.</div>
+    </div>
+  </div>
+
+  <div class="callout">
+    <div class="eyebrow">Moneda y forma de pago</div>
+    <p style="margin: 0;">El monto se abona en <strong>dólares estadounidenses</strong> por transferencia o billete, con su comprobante.
+      En caso de pago en pesos, se toma la cotización del <strong>dólar MEP vendedor</strong> de Ámbito Financiero al cierre del día hábil
+      anterior al pago.</p>
+  </div>
+
+  <div class="callout">
+    <div class="eyebrow">Nota sobre el último hito</div>
+    <p style="margin: 0;">El último 25% es exigible cuando el MVP aprobado está técnicamente listo para producción, aunque la publicación
+      se demore por decisiones, accesos o contenidos pendientes del lado de UMBRAL.</p>
+  </div>
+
+  <div class="runfoot"><div>07 · Inversión y forma de pago</div><div class="page-no">09<small>/ 13</small></div></div>
+</section>
+
+<!-- ============== §08 Incluye / no incluye ============== -->
+<section class="page">
+  <div class="runhead"><div class="l"><span class="mark-sm"></span><span>08 · Qué incluye y qué no</span></div><div>UMBRAL · Propuesta MVP v1</div></div>
+
+  <div class="section-head">
+    <div class="num">08</div>
+    <div>
+      <h2>Qué incluye y qué no</h2>
+      <p class="lead">El límite claro de esta primera versión. Lo que queda fuera no se descarta: se prioriza por madurez para etapas
+        siguientes.</p>
+    </div>
+  </div>
+
+  <div class="inout">
+    <div class="in">
+      <div class="eyebrow">Incluye</div>
+      <ul>
+        <li>Diseño funcional del producto</li>
+        <li>Arquitectura técnica, frontend y backend</li>
+        <li>Base de datos, autenticación y permisos por rol</li>
+        <li>App del inversor (mobile-first) con onboarding y login</li>
+        <li>Backoffice UMBRAL completo</li>
+        <li>Valorización por m², avance de obra y estado de cuotas</li>
+        <li>Carga de contenido y administración de pagos</li>
+        <li>Emails de bienvenida, recuperación y avisos</li>
+        <li>Almacenamiento de archivos · puesta online</li>
+        <li>Pruebas, ajustes de cierre y documentación operativa breve</li>
+        <li>15 días de estabilización posterior</li>
+      </ul>
+    </div>
+    <div class="out">
+      <div class="eyebrow">No incluye</div>
+      <ul>
+        <li>App nativa iOS / Android</li>
+        <li>Rol y acceso de la desarrolladora a la plataforma</li>
+        <li>Multi-desarrollo en la app para un mismo inversor</li>
+        <li>Pagos internos o integración con cobranza / contabilidad</li>
+        <li>WhatsApp Business, chat interno, firma digital, push nativas</li>
+        <li>Banca UMBRAL, Cartilla, beneficios, comunidad, documentos</li>
+        <li>Analítica avanzada, dashboards o reportes complejos</li>
+        <li>Redacción legal, política de privacidad, asesoría financiera</li>
+        <li>Producción de fotos / videos y carga masiva de datos</li>
+        <li>Costos mensuales de infraestructura y servicios externos</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="callout">
+    <div class="eyebrow">Definición de entrega</div>
+    <p style="margin:0;">El MVP se considera finalizado cuando están operativos los flujos del alcance aprobado y queda técnicamente listo
+      para producción, aunque resten mejoras visuales o funciones para una segunda etapa.</p>
+  </div>
+
+  <div class="runfoot"><div>08 · Qué incluye y qué no</div><div class="page-no">10<small>/ 13</small></div></div>
+</section>
+
+<!-- ============== §09 Infra, garantía, mantenimiento ============== -->
+<section class="page">
+  <div class="runhead"><div class="l"><span class="mark-sm"></span><span>09 · Infraestructura, garantía y mantenimiento</span></div><div>UMBRAL · Propuesta MVP v1</div></div>
+
+  <div class="section-head">
+    <div class="num">09</div>
+    <div>
+      <h2>Infraestructura, garantía y mantenimiento</h2>
+      <p class="lead">Lo que rodea al desarrollo: costos de servicios externos, la garantía incluida y el mantenimiento opcional.</p>
+    </div>
+  </div>
+
+  <h3 class="minor" style="margin-top: 4pt;">Costos de infraestructura (a cargo de UMBRAL)</h3>
+  <p style="font-size:10pt;">Dominio, hosting, base de datos, almacenamiento, emails y licencias de terceros no están incluidos en los
+    USD 4.000 y los paga directamente UMBRAL. Valores estimados con el primer cliente real:</p>
+  <div class="ops-box">
+    <div>
+      <div class="lbl">Infraestructura mensual estimada</div>
+      <div class="amt">USD 45 – 65 / mes</div>
+    </div>
+    <div class="note">Varía según uso real, archivos, volumen de emails y pricing de cada proveedor. Se puede arrancar en planes free / hobby y migrar a Pro a medida que crezca la base.</div>
+  </div>
+
+  <div class="grid-2" style="margin-top: 12pt;">
+    <div class="callout" style="margin:0;">
+      <div class="eyebrow">Garantía de estabilización</div>
+      <p style="margin:0; font-size:9.5pt;"><strong>15 días corridos</strong> para corregir sin costo errores reproducibles que impidan
+        cumplir el alcance aprobado. Comienza con la publicación en producción (o con la entrega técnica si la publicación se demora por
+        causas de UMBRAL). No cubre nuevas funciones, cambios de criterio ni fallas de servicios externos.</p>
+    </div>
+    <div class="callout" style="margin:0;">
+      <div class="eyebrow">Mantenimiento opcional</div>
+      <p style="margin:0; font-size:9.5pt;"><strong>USD 200 / mes</strong>, por adelantado, sin permanencia mínima (cancelable con 30 días
+        de aviso). Incluye corrección de bugs, incidentes técnicos menores, supervisión básica de infraestructura y backups, y hasta
+        <strong>dos mejoras menores por mes</strong> no acumulables. No incluye nuevas funciones ni cambios estructurales.</p>
+    </div>
+  </div>
+
+  <h3 class="minor">Evolución del producto</h3>
+  <p style="font-size:10pt;">Nuevas funcionalidades, integraciones, automatizaciones o rediseños se consideran evolución del producto y
+    se presupuestan por separado antes de ejecutarlos. Líneas futuras naturales: acceso de la desarrolladora al backoffice,
+    multi-desarrollo en la app, integración con cobranza, y los módulos Banca UMBRAL, Cartilla y beneficios.</p>
+
+  <div class="runfoot"><div>09 · Infraestructura, garantía y mantenimiento</div><div class="page-no">11<small>/ 13</small></div></div>
+</section>
+
+<!-- ============== §10 Próximos pasos + Resumen ============== -->
+<section class="page">
+  <div class="runhead"><div class="l"><span class="mark-sm"></span><span>10 · Próximos pasos y resumen</span></div><div>UMBRAL · Propuesta MVP v1</div></div>
+
+  <div class="section-head">
+    <div class="num">10</div>
+    <div>
+      <h2>Próximos pasos</h2>
+      <p class="lead">Para arrancar.</p>
+    </div>
+  </div>
+
+  <div class="flow" style="grid-template-columns: repeat(4, 1fr); margin-bottom: 14pt;">
+    <div class="step"><div class="n">01</div><div class="t">Aprobar el alcance de esta propuesta y firmar el contrato.</div></div>
+    <div class="step"><div class="n">02</div><div class="t">Abonar el hito inicial (50%).</div></div>
+    <div class="step"><div class="n">03</div><div class="t">Entregar accesos e información mínima para trabajar.</div></div>
+    <div class="step"><div class="n">04</div><div class="t">Arranque: base del proyecto y primer flujo funcional.</div></div>
+  </div>
+
+  <h3 class="minor">Resumen ejecutivo</h3>
+  <div class="grid-2">
+    <div>
+      <p style="font-size:10pt;">Una <strong>app web mobile-first</strong> para el inversor y un <strong>backoffice</strong> operado por
+        UMBRAL, sobre un mismo backend. El inversor consulta su inversión; UMBRAL da de alta, carga, acompaña y administra.</p>
+      <ul style="font-size:10pt;">
+        <li><strong>Inversor</strong> · ve la valorización de sus m², su obra y sus cuotas.</li>
+        <li><strong>Admin UMBRAL</strong> · opera todo el backoffice.</li>
+        <li>Stack cloud reconocido · 8 a 12 semanas de implementación.</li>
+      </ul>
+    </div>
+    <div>
+      <div class="card" style="background: var(--umbral-green-50); border-left: 3pt solid var(--umbral-green);">
+        <div class="eyebrow" style="color: var(--umbral-green);">Inversión</div>
+        <div style="font-family: var(--font-serif); font-size: 38pt; color: var(--umbral-green); line-height: 1; margin: 6pt 0;">USD 4.000</div>
+        <p style="margin: 0;">En 3 hitos (50% · 25% · 25%) · incluye 15 días de estabilización.</p>
+      </div>
+      <div class="card" style="margin-top: 10pt;">
+        <div class="eyebrow">Infraestructura</div>
+        <div style="font-family: var(--font-serif); font-size: 20pt; line-height: 1; margin: 6pt 0;">USD 45 – 65 / mes</div>
+        <p style="margin: 0;">A cargo de UMBRAL, con el primer cliente real.</p>
+      </div>
+      <div class="card" style="margin-top: 10pt;">
+        <div class="eyebrow">Mantenimiento opcional</div>
+        <div style="font-family: var(--font-serif); font-size: 20pt; line-height: 1; margin: 6pt 0;">USD 200 / mes</div>
+        <p style="margin: 0;">Sin permanencia mínima.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout">
+    <p style="margin:0; font-size:9.5pt;">Esta propuesta se formaliza en el contrato de desarrollo del MVP y sus anexos, que prevalecen
+      sobre este documento en caso de diferencia.</p>
+  </div>
+
+  <div class="runfoot"><div>10 · Próximos pasos y resumen</div><div class="page-no">12<small>/ 13</small></div></div>
+</section>
+
+<!-- ============== Closing ============== -->
+<section class="page closing">
+  <div class="brand" style="display:flex; align-items:center; gap: 12pt; padding-bottom: 18pt; border-bottom: 1px solid rgba(255,255,255,0.18);">
+    <div style="width: 34pt; height: 34pt; background: #fff; border-radius: 3pt; display: flex; align-items: center; justify-content: center;">
+      <svg class="u-mark" width="24" height="20"><use href="#u-mark"/></svg>
+    </div>
+    <div style="line-height: 1; color: #fff;">
+      <div style="font-family: var(--font-serif); font-size: 18pt;">UMBRAL</div>
+      <div style="font-size: 8pt; letter-spacing: 0.22em; color: rgba(255,255,255,0.7); margin-top: 4pt;">COLLECTION</div>
+    </div>
+  </div>
+
+  <div style="flex: 1; display: flex; flex-direction: column; justify-content: center;">
+    <div class="eyebrow" style="color: rgba(255,255,255,0.6);">Gracias</div>
+    <p class="quote">
+      Porque cada umbral marca un antes y un después. Y en ese instante, decidimos estar presentes.
+    </p>
+    <p style="color: rgba(255,255,255,0.78); max-width: 60ch; font-size: 12pt; margin-top: 10pt;">
+      Quedamos a disposición para revisar este documento, ajustar el alcance y arrancar el proyecto cuando el equipo lo defina.
+    </p>
+  </div>
+
+  <div class="sign">
+    <div>
+      <div class="lbl">Documento</div>
+      <div class="val">Propuesta de desarrollo · MVP v1</div>
+      <div style="margin-top: 4pt;">Junio 2026 · Argentina</div>
+    </div>
+    <div>
+      <div class="lbl">Contacto</div>
+      <div class="val">UMBRAL Collection</div>
+      <div style="margin-top: 4pt;">@umbral.collection</div>
+    </div>
+  </div>
+
+  <div class="closing-deco">U</div>
+</section>
+
+</div>
+</body>
+</html>
